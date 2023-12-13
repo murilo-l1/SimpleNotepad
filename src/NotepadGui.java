@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,6 +25,10 @@ public class NotepadGui extends JFrame implements ActionListener {
     private JMenu menuFont, menuFontSize;
     private boolean wordWrapOn = false;
 
+    //componentes de 'EditMenu' - responsavel pelas ações no texto
+    private JMenuItem iUndo, iRedo, iFind;
+    private UndoManager um = new UndoManager(); // toma conta das ações possíveis de serem desfeitas no documento;
+
     //componentes de 'theme'
     private JMenuItem iLight, iDark;
 
@@ -29,13 +36,16 @@ public class NotepadGui extends JFrame implements ActionListener {
     FileInteraction file = new FileInteraction(this);
     FormatInterection format = new FormatInterection(this);
     ThemeInteraction theme = new ThemeInteraction(this);
+    EditInteraction edit = new EditInteraction(this);
+    KeyHandler key = new KeyHandler(this);
 
     public NotepadGui(){
         createWindow();
         createTextArea();
         createMenuBar();
         createFileMenu();
-        createTheme();
+        createThemeMenu();
+        createEditMenu();
         theme.setTheme("Dark");
         //setando a fonte default para ser Arial 12
         format.selectedFont = "Arial";
@@ -55,6 +65,18 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     public void createTextArea(){
         textArea = new JTextArea();
+        // implementando
+        textArea.getDocument().addUndoableEditListener(
+                new UndoableEditListener() {
+                    @Override
+                    public void undoableEditHappened(UndoableEditEvent e) {
+                       um.addEdit(e.getEdit());
+                    }
+                }
+        );
+
+        textArea.addKeyListener(key);
+
         scrollBar = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollBar.setBorder(BorderFactory.createEmptyBorder()); //removendo a borda gerada pela barra de scroll
         window.add(scrollBar);
@@ -151,7 +173,7 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     }
 
-    public void createTheme(){
+    public void createThemeMenu(){
         iLight = new JMenuItem("Light");
         iLight.addActionListener(this);
         iLight.setActionCommand("Light");
@@ -162,6 +184,18 @@ public class NotepadGui extends JFrame implements ActionListener {
         iDark.setActionCommand("Dark");
         menuTheme.add(iDark);
 
+    }
+
+    public void createEditMenu(){
+        iUndo = new JMenuItem("Undo");
+        iUndo.addActionListener(this);
+        iUndo.setActionCommand("Undo");
+        menuEdit.add(iUndo);
+
+        iRedo = new JMenuItem("Redo");
+        iRedo.addActionListener(this);
+        iRedo.setActionCommand("Redo");
+        menuEdit.add(iRedo);
     }
 
 
@@ -180,6 +214,8 @@ public class NotepadGui extends JFrame implements ActionListener {
             case "size16": format.createFontFormat(16); break;
             case "size20": format.createFontFormat(20); break;
             case "Light", "Dark" : theme.setTheme(command); break;
+            case "Undo": edit.undoEdit(); break;
+            case "Redo": edit.redoEdit(); break;
         }
 
     }
@@ -202,5 +238,9 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     public JMenuItem getiWrap() {
         return iWrap;
+    }
+
+    public UndoManager getUm() {
+        return um;
     }
 }
