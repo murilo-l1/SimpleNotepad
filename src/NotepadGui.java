@@ -73,7 +73,8 @@ public class NotepadGui extends JFrame implements ActionListener {
                        um.addEdit(e.getEdit());
                     }
                 }
-        );
+
+                );
 
         textArea.addKeyListener(key);
 
