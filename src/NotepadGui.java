@@ -1,7 +1,11 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.text.BadLocationException;
 import javax.swing.undo.UndoManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +15,7 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     //variaveis de controle para a área de texto
     private JTextArea textArea;
+    private JTextArea sideColumn;
     private JScrollPane scrollBar;
 
     //Top menu
@@ -47,12 +52,11 @@ public class NotepadGui extends JFrame implements ActionListener {
         createThemeMenu();
         createEditMenu();
         theme.setTheme("Dark");
-        //setando a fonte default para ser Arial 12
+        //setando a fonte default para ser Arial 16
         format.selectedFont = "Arial";
         format.createFontFormat(16);
         createFormatMenu();
         window.setVisible(true);
-
     }
 
     public void createWindow(){
@@ -65,16 +69,15 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     public void createTextArea(){
         textArea = new JTextArea();
-        // implementando
+
+        // implementando a interface responsavel por lidar com as modificações na área de texto
         textArea.getDocument().addUndoableEditListener(
                 new UndoableEditListener() {
                     @Override
                     public void undoableEditHappened(UndoableEditEvent e) {
                        um.addEdit(e.getEdit());
                     }
-                }
-
-                );
+                });
 
         textArea.addKeyListener(key);
 
@@ -197,8 +200,12 @@ public class NotepadGui extends JFrame implements ActionListener {
         iRedo.addActionListener(this);
         iRedo.setActionCommand("Redo");
         menuEdit.add(iRedo);
-    }
 
+        iFind = new JMenuItem("Find");
+        iFind.addActionListener(this);
+        iFind.setActionCommand("Find");
+        menuEdit.add(iFind);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -217,6 +224,7 @@ public class NotepadGui extends JFrame implements ActionListener {
             case "Light", "Dark" : theme.setTheme(command); break;
             case "Undo": edit.undoEdit(); break;
             case "Redo": edit.redoEdit(); break;
+            case "Find": edit.findTextEdit(); break;
         }
 
     }

@@ -13,7 +13,7 @@ public class KeyHandler implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
-
+    // estabelecendo shortcuts basicas como ctrl + s, ctrl + o...
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
@@ -29,6 +29,13 @@ public class KeyHandler implements KeyListener {
 
         if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_O){
             notepadGui.file.openFile();
+        }
+
+        if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_N)
+            notepadGui.file.newFile();
+
+        if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F){
+            notepadGui.edit.findTextEdit();
         }
 
     }

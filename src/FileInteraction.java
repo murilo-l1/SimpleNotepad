@@ -66,6 +66,11 @@ public class FileInteraction {
                     FileWriter fw = new FileWriter(filePath + fileName);
                     fw.write(notepadGui.getTextArea().getText());
                     notepadGui.getWindow().setTitle(fileName);
+
+                    if(!fileName.toLowerCase().endsWith(".txt")){
+                        fileName = fileName + ".txt";
+                    }
+
                     fw.close();
 
                 }catch (IOException ioe){
@@ -77,7 +82,6 @@ public class FileInteraction {
             }
 
     }
-
     public void saveAsFile(){
             FileDialog fileDialog = new FileDialog(notepadGui.getWindow(), "Save as", FileDialog.SAVE);
             fileDialog.setVisible(true);
@@ -89,6 +93,10 @@ public class FileInteraction {
              else{
             System.out.println("Não foi possível carregar o arquivo do explorador.");
             }
+
+             if(!fileName.toLowerCase().endsWith(".txt")){
+                 fileName = fileName + ".txt";
+             }
 
             try {
                 FileWriter fw = new FileWriter(filePath + fileName);

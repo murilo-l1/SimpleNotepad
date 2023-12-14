@@ -1,0 +1,9 @@
+This was a simple aplication devoloped using JavaSwing to learn some of the components that let you access the text files in your computer - saving, opening, naming, wraping the words as needed and also letting the user have some interaction as defining his font, size and also a simple 'Themes tab' that let chooses between the popular "Light and Dark" seen in another text editors, some shortcuts are available to do the common tasks as saving, undoing, redoing and also findig a word, if u read till here hope u are doing okay!<3
+
+Thanks and happy coding!
+murilo-l1
+
+
+
+
+

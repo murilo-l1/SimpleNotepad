@@ -1,7 +1,10 @@
+import javax.swing.*;
+
 public class NotepadRunner {
     public static void main(String[] args) {
 
-        NotepadGui notepadGui = new NotepadGui();
+        SwingUtilities.invokeLater(() -> {
+            NotepadGui editor = new NotepadGui();
+        });
     }
-
 }
