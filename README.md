@@ -10,7 +10,7 @@
 
 <h2>Technologies Used</h2>
 <p>
-    utilizes the default Swing library of raw Java.
+    Utilizes the default Swing library of raw Java.
 </p>
 
 <h2>Class Summaries</h2>
@@ -53,7 +53,11 @@
     <strong>Description:</strong> The NotepadRunner class serves as the initializer for the GUI using the 'invokelater()' to initialize the thread and display the window generated in 'NotepadGui'.
 </p>
 
+
 <p align="center">
     <img src="https://github.com/murilo-l1/SimpleNotepad/blob/master/logo.jpeg" align="center">
+</p>
+
+<p align="center">
 	Credits for the logo: @JhuliaVitoriaFelix, my love <3
 </p>
