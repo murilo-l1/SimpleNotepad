@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class ThemeInteraction {
 
-    NotepadGui notepadGui;
+    private final NotepadGui notepadGui;
 
 
     public ThemeInteraction(NotepadGui notepadGui){
@@ -25,13 +25,6 @@ public class ThemeInteraction {
                 notepadGui.getTextArea().setCaretColor(Color.white);
                 break;
             }
-
-
         }
-
-
-
     }
-
-
 }

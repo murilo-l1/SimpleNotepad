@@ -1,13 +1,10 @@
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.text.BadLocationException;
 import javax.swing.undo.UndoManager;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class NotepadGui extends JFrame implements ActionListener {
 
@@ -15,12 +12,11 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     //variaveis de controle para a área de texto
     private JTextArea textArea;
-    private JTextArea sideColumn;
     private JScrollPane scrollBar;
 
     //Top menu
-    private JMenuBar menuBar;
-    private JMenu menuFile, menuEdit, menuFormat, menuTheme;
+     private JMenuBar menuBar;
+     private JMenu menuFile, menuEdit, menuFormat, menuTheme;
 
     //componentes de 'file'
     private JMenuItem iNew, iOpen, iSave, iSaveAs, iExit;
@@ -34,8 +30,7 @@ public class NotepadGui extends JFrame implements ActionListener {
     private JMenuItem iUndo, iRedo, iFind;
     private UndoManager um = new UndoManager(); // toma conta das ações possíveis de serem desfeitas no documento;
 
-    //componentes de 'theme'
-    private JMenuItem iLight, iDark;
+
 
     //referenciando as classes presentes no projeto
     FileInteraction file = new FileInteraction(this);
@@ -50,26 +45,27 @@ public class NotepadGui extends JFrame implements ActionListener {
         createMenuBar();
         createFileMenu();
         createThemeMenu();
-        createEditMenu();
         theme.setTheme("Dark");
+        createEditMenu();
         //setando a fonte default para ser Arial 16
         format.selectedFont = "Arial";
         format.createFontFormat(16);
         createFormatMenu();
-        window.setVisible(true);
     }
-
-    public void createWindow(){
+    // responsavel por iniciar a janela da aplicação com os seus atributos
+    private void createWindow(){
         window = new JFrame("SimpleNotepad");
         window.setSize(1084,643);
+        ImageIcon logo = new ImageIcon("C:\\Users\\muril\\IdeaProjects\\SimpleNotepad\\logo.jpeg");
+        window.setIconImage(logo.getImage());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(true);
         window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
-
-    public void createTextArea(){
+    // criando a área de texto que salva o conteúdo digitado pelo usuário para que assim os métodos externos possam modifica - la quando necessario
+    private void createTextArea(){
         textArea = new JTextArea();
-
         // implementando a interface responsavel por lidar com as modificações na área de texto
         textArea.getDocument().addUndoableEditListener(
                 new UndoableEditListener() {
@@ -80,14 +76,13 @@ public class NotepadGui extends JFrame implements ActionListener {
                 });
 
         textArea.addKeyListener(key);
-
         scrollBar = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollBar.setBorder(BorderFactory.createEmptyBorder()); //removendo a borda gerada pela barra de scroll
         window.add(scrollBar);
         //window.add(textArea);
     }
-
-    public void createMenuBar(){
+    //top menu e abaixo as opcoes de cada um dos 'sub-menus'
+    private void createMenuBar(){
         menuBar = new JMenuBar();
         window.setJMenuBar(menuBar);
 
@@ -104,7 +99,7 @@ public class NotepadGui extends JFrame implements ActionListener {
         menuBar.add(menuTheme);
     }
 
-    public void createFileMenu(){
+    private void createFileMenu(){
         iNew = new JMenuItem("New");
         iNew.addActionListener(this);
         iNew.setActionCommand("New");
@@ -133,7 +128,7 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     }
 
-    public void createFormatMenu(){
+    private void createFormatMenu(){
         iWrap = new JMenuItem("Format Text: Off");
         iWrap.addActionListener(this);
         iWrap.setActionCommand("Format Text");
@@ -177,7 +172,8 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     }
 
-    public void createThemeMenu(){
+    private void createThemeMenu(){
+        JMenuItem iLight, iDark;
         iLight = new JMenuItem("Light");
         iLight.addActionListener(this);
         iLight.setActionCommand("Light");
@@ -190,7 +186,7 @@ public class NotepadGui extends JFrame implements ActionListener {
 
     }
 
-    public void createEditMenu(){
+    private void createEditMenu(){
         iUndo = new JMenuItem("Undo");
         iUndo.addActionListener(this);
         iUndo.setActionCommand("Undo");
@@ -206,7 +202,7 @@ public class NotepadGui extends JFrame implements ActionListener {
         iFind.setActionCommand("Find");
         menuEdit.add(iFind);
     }
-
+    //iteracao de acao de acordo com a seleção do usuario
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
@@ -228,7 +224,7 @@ public class NotepadGui extends JFrame implements ActionListener {
         }
 
     }
-
+    //getters and setters das variaveis que serao acessadas para modificacoes externas
     public JTextArea getTextArea() {
         return textArea;
     }
@@ -236,7 +232,6 @@ public class NotepadGui extends JFrame implements ActionListener {
     public JFrame getWindow() {
         return window;
     }
-
     public boolean isWordWrapOn() {
         return wordWrapOn;
     }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.io.IOException;
 
 public class EditInteraction  {
-    NotepadGui notepadGui;
+    private NotepadGui notepadGui;
 
     public EditInteraction(NotepadGui notepadGui){
         this.notepadGui = notepadGui;

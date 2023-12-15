@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,16 +5,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileInteraction {
-    NotepadGui notepadGui;
-    String fileName;
-    String filePath;
+    private final NotepadGui notepadGui;
+    private String fileName;
+    private String filePath;
 
 
     public FileInteraction(NotepadGui notepadGui){
         this.notepadGui = notepadGui;
     }
 
-    // criar um novo arquivo ao acessar a aba em 'File'
+    // criar um arquivo ao acessar a aba em 'File'
     public void newFile(){
         notepadGui.getTextArea().setText("");
         notepadGui.getWindow().setTitle("New");
@@ -40,7 +39,7 @@ public class FileInteraction {
             BufferedReader br = new BufferedReader(new FileReader(filePath + fileName));
             notepadGui.getTextArea().setText(""); // nova area de texto comeca vazia
 
-            String line = null; // linha que vai armazenar os dados a serem lidos
+            String line; // linha que vai armazenar os dados a serem lidos
 
             // enquanto houver conteúdo a ser lido do arquivo
             while((line = br.readLine()) != null){
